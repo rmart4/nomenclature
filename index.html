@@ -78,7 +78,7 @@ header p{font-size:0.85rem;color:#7A7060;margin-top:0.3rem}
 
 .grid-controls{display:flex;gap:8px;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap}
 .grid-controls span{font-size:0.8rem;color:#9E9589}
-.btn-sm{padding:4px 12px;border:1px solid #C8C0B0;border-radius:6px;font-size:0.8rem;cursor:pointer;background:#FDFBF6;font-family:'DM Sans',sans-serif;transition:background 0.1s}
+.btn-sm{touch-action:manipulation;padding:4px 12px;border:1px solid #C8C0B0;border-radius:6px;font-size:0.8rem;cursor:pointer;background:#FDFBF6;font-family:'DM Sans',sans-serif;transition:background 0.1s}
 .btn-sm:hover{background:#EDE8DC}
 .grid-wrap{background:#FDFBF6;border:1px solid #D5CEBD;border-radius:14px;padding:1.25rem;overflow:auto;flex-shrink:0}
 .chess-grid{display:inline-grid;border-left:1px solid #E5DFD2;border-top:1px solid #E5DFD2;user-select:none}
@@ -99,6 +99,7 @@ header p{font-size:0.85rem;color:#7A7060;margin-top:0.3rem}
 .grid-wrap{max-width:100%;overflow-x:auto}
 .svg-side{flex:1;min-width:200px;max-width:100%;background:#F9F6EF;border:1px solid #D5CEBD;border-radius:10px;padding:1rem;min-height:160px;display:flex;align-items:center;justify-content:center;overflow-x:auto}
 @media(max-width:600px){.builder-layout{flex-direction:column}.svg-side{width:100%}}
+button,input{touch-action:manipulation}
 </style>
 </head>
 <body>
@@ -1163,6 +1164,16 @@ function checkTypeB_Dessiner(){
 }
 
 
+// Handler universel pour boutons sur mobile
+document.addEventListener('pointerdown', function(e){
+  const btn = e.target.closest('button');
+  if(!btn) return;
+  const oc = btn.getAttribute('onclick');
+  if(oc){
+    e.stopPropagation();
+    // Laisser onclick se déclencher normalement (pas besoin d'eval)
+  }
+});
 startMode();
 </script>
 </body>
