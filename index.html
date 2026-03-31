@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nomenclature — Chimie organique · 1re spé</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,600&family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:#F4F1EA;color:#1A1714;min-height:100vh;padding:2rem 1rem 4rem}
+.container{max-width:860px;margin:0 auto}
+header{border-bottom:1.5px solid #C8C0B0;padding-bottom:1.25rem;margin-bottom:2rem}
+header h1{font-family:'Source Serif 4',serif;font-weight:300;font-size:1.75rem;letter-spacing:-0.02em}
+header p{font-size:0.85rem;color:#7A7060;margin-top:0.3rem}
+.scoreboard{display:flex;align-items:center;gap:1.5rem;background:#FDFBF6;border:1px solid #D5CEBD;border-radius:10px;padding:0.85rem 1.25rem;margin-bottom:1.75rem;font-size:0.88rem;color:#7A7060}
+.scoreboard .val{font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:600;color:#1A1714}
+.progress-track{flex:1;height:5px;background:#E5DFD2;border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;background:#2B5EA7;border-radius:99px;transition:width 0.4s ease}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem}
+.tab{padding:6px 14px;border:1px solid #C8C0B0;border-radius:99px;font-size:0.82rem;cursor:pointer;background:transparent;color:#7A7060;transition:all 0.15s;font-family:'DM Sans',sans-serif}
+.tab:hover{background:#EDE8DC}
+.tab.active{background:#1A1714;color:#F4F1EA;border-color:#1A1714}
+.card{background:#FDFBF6;border:1px solid #D5CEBD;border-radius:14px;padding:1.75rem;margin-bottom:1.25rem}
+.q-meta{font-size:0.75rem;color:#9E9589;margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.08em}
+.q-text{font-family:'Source Serif 4',serif;font-size:1.1rem;font-weight:300;line-height:1.55;margin-bottom:1.5rem}
+.q-text strong{font-weight:600;font-family:'JetBrains Mono',monospace;font-size:0.95rem;color:#2B5EA7;background:#E8EFF9;padding:2px 7px;border-radius:5px}
+.mol-display{display:flex;justify-content:center;align-items:center;padding:1.25rem 1rem;background:#FDFBF6;border:1px solid #D5CEBD;border-radius:12px;margin-bottom:1.5rem;min-height:160px;overflow-x:auto}
+.mol-display svg{display:block}
+.options-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(max-width:500px){.options-grid{grid-template-columns:1fr}}
+.opt-btn{padding:0.85rem 1rem;border:1px solid #C8C0B0;border-radius:10px;background:#FDFBF6;font-family:'DM Sans',sans-serif;font-size:0.9rem;cursor:pointer;text-align:left;transition:all 0.15s;color:#1A1714}
+.opt-btn:hover:not([disabled]){background:#EDE8DC;border-color:#A89E8C}
+.opt-btn.correct{background:#D8EFDF;border-color:#2D6A4F;color:#1A3D2B}
+.opt-btn.wrong{background:#F5DDE2;border-color:#9B2335;color:#5C0F1A}
+.opt-btn[disabled]{cursor:default}
+.opt-mono{font-family:'JetBrains Mono',monospace;font-size:0.85rem;text-align:center}
+.builder-label{font-size:0.78rem;color:#7A7060;font-weight:500;margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.06em}
+.palette{display:flex;flex-wrap:wrap;gap:6px;padding:0.75rem;background:#F9F6EF;border:1px solid #D5CEBD;border-radius:10px;margin-bottom:1rem}
+.pblock{display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:0.82rem;font-weight:600;padding:5px 10px;border-radius:6px;cursor:pointer;user-select:none;border:1px solid transparent;transition:transform 0.12s,filter 0.12s}
+.pblock:hover{filter:brightness(0.91);transform:translateY(-1px)}
+.pblock:active{transform:scale(0.95)}
+.pb-chain{background:#E2EAF8;color:#1C3F7A;border-color:#BFD0EE}
+.pb-branch{background:#EDE0F5;color:#4A1A7A;border-color:#C9A8E8}
+.pb-oh{background:#D5EDDC;color:#1A3D2B;border-color:#9ECFB0}
+.pb-co{background:#FEF0D0;color:#5C3A00;border-color:#F0C96A}
+.pb-cho{background:#FCE5C8;color:#5C2800;border-color:#F0A86A}
+.pb-cooh{background:#F8D8DF;color:#5C0F1A;border-color:#E8A0AD}
+.build-zone{min-height:175px;border:1.5px dashed #B5AC98;border-radius:10px;background:#F9F6EF;padding:0.9rem;transition:border-color 0.2s,background 0.2s}
+.built-chips{display:flex;flex-wrap:wrap;align-items:center;gap:4px;min-height:34px;margin-bottom:0.75rem}
+.built-chip{display:inline-flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:0.8rem;font-weight:600;padding:4px 9px;border-radius:5px;cursor:pointer;position:relative;border:1px solid transparent;user-select:none}
+.built-chip:hover::after{content:'✕';position:absolute;top:-7px;right:-7px;width:15px;height:15px;background:#9B2335;color:#fff;border-radius:50%;font-size:9px;line-height:15px;text-align:center;pointer-events:none}
+.built-sep{color:#9E9589;font-size:0.85rem;font-family:'JetBrains Mono',monospace}
+.zone-hint{font-size:0.82rem;color:#B5AC98;font-style:italic}
+.built-preview{display:flex;justify-content:center;overflow-x:auto;min-height:90px;align-items:center}
+.feedback{padding:0.85rem 1.1rem;border-radius:10px;font-size:0.9rem;line-height:1.6;margin-top:0.75rem;display:none}
+.feedback.ok{background:#D8EFDF;color:#1A3D2B;border:1px solid #9ECFB0;display:block}
+.feedback.ko{background:#F5DDE2;color:#5C0F1A;border:1px solid #E8A0AD;display:block}
+.corr-mol{display:flex;justify-content:center;margin-top:10px;background:rgba(255,255,255,0.55);border-radius:8px;padding:0.5rem;overflow-x:auto}
+.actions{display:flex;gap:10px;margin-top:1.25rem;flex-wrap:wrap}
+.btn{padding:9px 20px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:500;cursor:pointer;transition:all 0.15s;border:1px solid transparent}
+.btn-check{background:#1A1714;color:#F4F1EA;border-color:#1A1714}
+.btn-check:hover{background:#333028}
+.btn-check:disabled{background:#9E9589;border-color:#9E9589;cursor:default}
+.btn-next{background:#2B5EA7;color:#fff;border-color:#2B5EA7;display:none}
+.btn-next:hover{background:#1F4A8A}
+.btn-clear{background:transparent;color:#7A7060;border-color:#C8C0B0}
+.btn-clear:hover{background:#EDE8DC}
+.pip-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:1.5rem}
+.pip{width:11px;height:11px;border-radius:50%;background:#D5CEBD;transition:background 0.3s}
+.pip.ok{background:#2D6A4F}
+.pip.ko{background:#9B2335}
+.pip.curr{background:#2B5EA7}
+.end-screen{text-align:center;padding:3rem 1rem;display:none}
+.end-screen h2{font-family:'Source Serif 4',serif;font-weight:300;font-size:2rem;margin-bottom:0.75rem}
+.end-screen p{color:#7A7060;margin-bottom:1.5rem;font-size:1rem}
+.btn-restart{background:#1A1714;color:#F4F1EA;border:none;padding:11px 28px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.95rem;cursor:pointer}
+.btn-restart:hover{background:#333028}
+
+.grid-controls{display:flex;gap:8px;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap}
+.grid-controls span{font-size:0.8rem;color:#9E9589}
+.btn-sm{padding:4px 12px;border:1px solid #C8C0B0;border-radius:6px;font-size:0.8rem;cursor:pointer;background:#FDFBF6;font-family:'DM Sans',sans-serif;transition:background 0.1s}
+.btn-sm:hover{background:#EDE8DC}
+.grid-wrap{background:#FDFBF6;border:1px solid #D5CEBD;border-radius:14px;padding:1.25rem;overflow:auto;flex-shrink:0}
+.chess-grid{display:inline-grid;border-left:1px solid #E5DFD2;border-top:1px solid #E5DFD2;user-select:none}
+.cell{width:64px;height:48px;border-right:1px solid #E5DFD2;border-bottom:1px solid #E5DFD2;display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;transition:background 0.1s;background:#FDFBF6}
+.cell:hover{background:#F0EDE5}.cell.filled{cursor:default}.cell.filled:hover{background:#FFF5F5}
+.cell.empty::after{content:'+';font-size:1.2rem;color:#C8C0B0;transition:color 0.1s}
+.cell.empty:hover::after{color:#2B5EA7}
+.chip{font-family:'JetBrains Mono',monospace;font-size:0.8rem;font-weight:600;padding:4px 8px;border-radius:6px;display:flex;align-items:center;gap:3px;cursor:pointer}
+.chip .rm{font-size:9px;opacity:0;margin-left:1px;color:#9B2335}
+.cell.filled:hover .rm{opacity:1}
+.ch-chain{background:#E2EAF8;color:#1C3F7A}.ch-oh{background:#D5EDDC;color:#1A3D2B}
+.ch-co{background:#FEF0D0;color:#5C3A00}.ch-cooh{background:#F8D8DF;color:#5C0F1A}
+.dropdown{position:fixed;background:#FDFBF6;border:1px solid #C8C0B0;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,0.15);z-index:1000;padding:6px;display:grid;grid-template-columns:repeat(2,1fr);gap:4px;min-width:170px}
+.dd-item{font-family:'JetBrains Mono',monospace;font-size:0.8rem;font-weight:600;padding:6px 10px;border-radius:6px;cursor:pointer;text-align:center;transition:filter 0.1s}
+.dd-item:hover{filter:brightness(0.92)}
+.dd-sep{grid-column:1/-1;font-size:0.67rem;color:#9E9589;text-transform:uppercase;letter-spacing:0.06em;padding:3px 4px 1px;border-top:1px solid #E5DFD2;margin-top:1px}
+.builder-layout{display:flex;gap:1.25rem;align-items:flex-start;flex-wrap:wrap;margin-bottom:1rem}
+.grid-wrap{max-width:100%;overflow-x:auto}
+.svg-side{flex:1;min-width:200px;max-width:100%;background:#F9F6EF;border:1px solid #D5CEBD;border-radius:10px;padding:1rem;min-height:160px;display:flex;align-items:center;justify-content:center;overflow-x:auto}
+@media(max-width:600px){.builder-layout{flex-direction:column}.svg-side{width:100%}}
+</style>
+</head>
+<body>
+<canvas id="mc" style="position:absolute;visibility:hidden;top:-9999px;left:-9999px"></canvas>
+<div class="container">
+<header>
+  <h1>Chimie organique — Nomenclature</h1>
+  <p>Première spécialité · Alcools · Aldéhydes · Cétones · Acides carboxyliques</p>
+</header>
+<div class="scoreboard">
+  <div>Score&nbsp;<span class="val" id="scoreVal">0</span></div>
+  <div>/&nbsp;<span class="val" id="totalVal">0</span></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div id="modeLabel" style="font-size:0.8rem;color:#7A7060">—</div>
+</div>
+<div class="pip-row" id="pipRow"></div>
+<div id="questionCard" class="card"></div>
+<div id="endScreen" class="end-screen">
+  <h2 id="endTitle"></h2><p id="endMsg"></p>
+  <button class="btn-restart" onclick="restartMode()">Recommencer</button>
+</div>
+</div>
+<script>
+// ══════════════════════════════════════════════════════
+//  DÉFINITIONS DES BLOCS
+// ══════════════════════════════════════════════════════
+const BLOCKS = [
+  {id:'CH3', label:'CH₃', cls:'ch-chain', group:'Chaîne'},
+  {id:'CH2', label:'CH₂', cls:'ch-chain', group:'Chaîne'},
+  {id:'CH',  label:'CH',   cls:'ch-chain', group:'Chaîne'},
+  {id:'C',   label:'C',    cls:'ch-chain', group:'Chaîne'},
+  {id:'EqO', label:'=O',   cls:'ch-co',    group:'Fonctionnel'},
+  {id:'H',   label:'H',    cls:'ch-chain', group:'Fonctionnel'},
+  {id:'OH',  label:'OH',   cls:'ch-oh',    group:'Fonctionnel'},
+];
+
+// ══════════════════════════════════════════════════════
+//  ÉTAT DE LA GRILLE
+//  cells[row][col] = null | blockId
+// ══════════════════════════════════════════════════════
+let ROWS = 5, COLS = 5;
+let cells = [];
+let openDropdown = null; // {row, col, el}
+
+function makeEmptyCells(r,c){
+  return Array.from({length:r}, ()=>Array(c).fill(null));
+}
+
+function resizeGrid(dr, dc){
+  const nr=Math.max(3,Math.min(9,ROWS+dr));
+  const nc=Math.max(3,Math.min(11,COLS+dc));
+  // Conserver les données existantes
+  const newCells=makeEmptyCells(nr,nc);
+  for(let r=0;r<Math.min(ROWS,nr);r++)
+    for(let c=0;c<Math.min(COLS,nc);c++)
+      newCells[r][c]=cells[r][c];
+  ROWS=nr; COLS=nc; cells=newCells;
+  closeDropdown();
+  renderGrid();
+  renderSVG();
+}
+
+function clearAll(){
+  cells=makeEmptyCells(ROWS,COLS);
+  closeDropdown();
+  renderGrid();
+  renderSVG();
+}
+
+// ══════════════════════════════════════════════════════
+//  RENDU GRILLE
+// ══════════════════════════════════════════════════════
+function renderGrid(){
+  const g=document.getElementById('chessGrid');
+  g.style.gridTemplateColumns=`repeat(${COLS},72px)`;
+  g.style.gridTemplateRows=`repeat(${ROWS},52px)`;
+  g.innerHTML='';
+  document.getElementById('gridDim').textContent=`${ROWS} × ${COLS}`;
+
+  for(let r=0;r<ROWS;r++){
+    for(let c=0;c<COLS;c++){
+      const id=cells[r][c];
+      const div=document.createElement('div');
+      div.className='cell '+(id?'filled':'empty');
+      div.dataset.row=r; div.dataset.col=c;
+
+      if(id){
+        const bl=BLOCKS.find(b=>b.id===id);
+        const chip=document.createElement('span');
+        chip.className='chip '+(bl?bl.cls:'ch-chain');
+        chip.innerHTML=(bl?bl.label:id)+'<span class="rm">✕</span>';
+        chip.onclick=(e)=>{e.stopPropagation();openMenu(r,c,div,e)};
+        div.appendChild(chip);
+      } else {
+        div.onclick=(e)=>{e.stopPropagation();openMenu(r,c,div,e)};
+      }
+      g.appendChild(div);
+    }
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  DROPDOWN
+// ══════════════════════════════════════════════════════
+function openMenu(row,col,cellEl,evt){
+  closeDropdown();
+
+  const dd=document.createElement('div');
+  dd.className='dropdown';
+
+  const groups=['Chaîne','Fonctionnel'];
+  groups.forEach(grp=>{
+    const items=BLOCKS.filter(b=>b.group===grp);
+    const sep=document.createElement('div');
+    sep.className='dd-sep';
+    sep.textContent=grp;
+    dd.appendChild(sep);
+    items.forEach(bl=>{
+      const it=document.createElement('div');
+      it.className='dd-item '+bl.cls;
+      it.textContent=bl.label;
+      it.onclick=(e)=>{e.stopPropagation();placeBlock(row,col,bl.id);};
+      dd.appendChild(it);
+    });
+  });
+
+  // Positionner via position:fixed en utilisant les coordonnées de la cellule
+  document.body.appendChild(dd);
+  const rect=cellEl.getBoundingClientRect();
+  const ddW=180, ddH=220;
+
+  let top = rect.bottom + 4;
+  let left = rect.left + rect.width/2 - ddW/2;
+
+  // Ajuster pour rester dans le viewport
+  if(top + ddH > window.innerHeight - 8) top = rect.top - ddH - 4;
+  if(left < 8) left = 8;
+  if(left + ddW > window.innerWidth - 8) left = window.innerWidth - ddW - 8;
+
+  dd.style.top  = top  + 'px';
+  dd.style.left = left + 'px';
+  dd.style.width = ddW + 'px';
+
+  // Si la cellule est déjà remplie, ajouter option "Retirer"
+  if(cells[row][col]){
+    const sep=document.createElement('div');
+    sep.className='dd-sep'; sep.textContent='Action';
+    dd.appendChild(sep);
+    const rm=document.createElement('div');
+    rm.className='dd-item'; rm.textContent='✕ Retirer';
+    rm.style.cssText='background:#FEE;color:#900;grid-column:1/-1';
+    rm.onclick=(e)=>{e.stopPropagation();removeCell(row,col);closeDropdown();};
+    dd.appendChild(rm);
+  }
+
+  openDropdown={row,col,el:dd};
+}
+
+function closeDropdown(){
+  if(openDropdown){
+    openDropdown.el.remove();
+    openDropdown=null;
+  }
+}
+
+document.addEventListener('click',closeDropdown);
+document.addEventListener('touchstart',closeDropdown,{passive:true});
+
+function placeBlock(row,col,id){
+  cells[row][col]=id;
+  closeDropdown();
+  renderGrid();
+  renderSVG();
+}
+
+function removeCell(row,col){
+  const prev=cells[row][col];
+  cells[row][col]=null;
+  history.push({row,col,prev});
+  renderGrid();
+  renderSVG();
+}
+
+// ══════════════════════════════════════════════════════
+//  CONVERSION GRILLE → NODES SVG
+//  Algorithme :
+//  1. Trouver la chaîne principale : séquence horizontale
+//     continue de blocs de type "chaîne" (CH3/CH2/CH/C/CO/CHO/COOH)
+//  2. Pour chaque carbone de la chaîne, chercher les voisins
+//     verticaux (OH au-dessus, ramifications en-dessous)
+// ══════════════════════════════════════════════════════
+
+const CHAIN_IDS  = new Set(['CH3','CH2','CH','C','CO','CHO','COOH']);
+const TOP_IDS    = new Set(['OH']);
+const BR_IDS     = new Set(['CH3','CH2','CH']); // blocs utilisables comme ramification
+
+function gridToNodes(){
+  const PURE_CHAIN = new Set(['CH3','CH2','CH','C','CO','CHO','COOH']);
+  const FUNC_IDS   = new Set(['OH','EqO','H']);
+
+  // 1. Cartographier les blocs PURE_CHAIN
+  const chainCells = [];
+  for(let r=0;r<ROWS;r++)
+    for(let c=0;c<COLS;c++)
+      if(cells[r][c] && PURE_CHAIN.has(cells[r][c]))
+        chainCells.push({r,c,id:cells[r][c]});
+  if(!chainCells.length) return [];
+
+  const cellKey = (r,c) => r+','+c;
+  const cellMap = {};
+  chainCells.forEach(cell => { cellMap[cellKey(cell.r,cell.c)] = cell; });
+
+  const nbr = (r,c,excl) =>
+    [[-1,0],[1,0],[0,-1],[0,1]]
+      .map(([dr,dc]) => cellMap[cellKey(r+dr,c+dc)])
+      .filter(n => n && (!excl || !excl.has(cellKey(n.r,n.c))));
+
+  // 2. Exclure les CH3 distaux (CH3 adjacent uniquement à un autre CH3)
+  const distal = new Set();
+  let chg = true;
+  while(chg){
+    chg = false;
+    chainCells.forEach(({r,c,id}) => {
+      const k=cellKey(r,c);
+      if(id!=='CH3'||distal.has(k)) return;
+      const nb=nbr(r,c,distal);
+      if(nb.length===1&&nb[0].id==='CH3'){distal.add(k);chg=true;}
+    });
+  }
+
+  // 3. Porteurs fonctionnels : nœud PURE_CHAIN adjacent à OH/=O/H
+  //    Sélectionner le meilleur porteur : max voisins de chaîne, puis C > CH > CH2 > CH3
+  const prio = {'C':0,'CO':0,'CHO':0,'COOH':0,'CH':1,'CH2':2,'CH3':3};
+  const rawCarriers = new Set();
+  for(let r=0;r<ROWS;r++)
+    for(let c=0;c<COLS;c++){
+      const id=cells[r][c];
+      if(!id||!FUNC_IDS.has(id)) continue;
+      [[-1,0],[1,0],[0,-1],[0,1]].forEach(([dr,dc])=>{
+        const k=cellKey(r+dr,c+dc);
+        if(cellMap[k]&&!distal.has(k)) rawCarriers.add(k);
+      });
+    }
+
+  // Choisir le porteur avec le plus de voisins (et meilleure priorité en cas d'égalité)
+  let funcCarriers = new Set();
+  if(rawCarriers.size){
+    const scored = [...rawCarriers].map(k=>{
+      const cell=cellMap[k];
+      const nCount=nbr(cell.r,cell.c,distal).length;
+      return {k, score: nCount*10 - (prio[cell.id]||2)};
+    });
+    const maxScore = Math.max(...scored.map(s=>s.score));
+    // Garder tous les porteurs au score maximal (peut y en avoir plusieurs)
+    scored.filter(s=>s.score===maxScore).forEach(s=>funcCarriers.add(s.k));
+  }
+
+  // 4. BFS complet depuis un nœud
+  function bfsFull(startKey, avoidKey){
+    const dist={[startKey]:0}, parent={[startKey]:null};
+    const queue=[startKey]; let far=startKey, maxD=0;
+    const startCell=cellMap[startKey];
+    while(queue.length){
+      const k=queue.shift();
+      const cell=cellMap[k];
+      nbr(cell.r,cell.c,distal).filter(n=>cellKey(n.r,n.c)!==avoidKey).forEach(n=>{
+        const nk=cellKey(n.r,n.c);
+        if(!(nk in dist)){
+          dist[nk]=dist[k]+1; parent[nk]=k;
+          // En cas d'égalité, préférer le nœud sur la même ligne que le départ
+          const sameRow = n.r===startCell.r;
+          const farCell = cellMap[far];
+          const farSameRow = farCell && farCell.r===startCell.r;
+          if(dist[nk]>maxD || (dist[nk]===maxD && sameRow && !farSameRow)){
+            maxD=dist[nk]; far=nk;
+          }
+          queue.push(nk);
+        }
+      });
+    }
+    return {far,parent};
+  }
+
+  function getPath(parent,end){
+    const p=[]; let k=end;
+    while(k!==null){p.push(k);k=parent[k];}
+    return p.reverse();
+  }
+
+  // 5. Trouver la chaîne principale
+  let bestPathKeys=[];
+
+  if(funcCarriers.size){
+    const carrier=[...funcCarriers][0];
+    const {far:A, parent:pA}=bfsFull(carrier,null);
+    const pathCA=getPath(pA,A);
+    const {far:B, parent:pB}=bfsFull(A,null);
+    const pathAB=getPath(pB,B);
+
+    if(pathAB.includes(carrier)){
+      bestPathKeys=pathAB;
+    } else {
+      const nextToA=pathCA.length>1?pathCA[1]:null;
+      const {far:Balt,parent:pBalt}=bfsFull(carrier,nextToA);
+      const pathCBalt=getPath(pBalt,Balt);
+      bestPathKeys=[...pathCA].reverse().concat(pathCBalt.slice(1));
+    }
+  } else {
+    const ends=chainCells.filter(c=>!distal.has(cellKey(c.r,c.c))&&nbr(c.r,c.c,distal).length<=1);
+    const s=ends.length?cellKey(ends[0].r,ends[0].c):cellKey(chainCells[0].r,chainCells[0].c);
+    const {far:A,parent:pA}=bfsFull(s,null);
+    const {far:B,parent:pB}=bfsFull(A,null);
+    bestPathKeys=getPath(pB,B);
+  }
+
+  if(!bestPathKeys.length) bestPathKeys=[cellKey(chainCells[0].r,chainCells[0].c)];
+
+  const bestPath=bestPathKeys.map(k=>cellMap[k]).filter(Boolean);
+  const pathKeys=new Set(bestPathKeys);
+
+  // 6. Attribution des substituants par proximité minimale
+  const assign={};
+  for(let r2=0;r2<ROWS;r2++){
+    for(let c2=0;c2<COLS;c2++){
+      const k2=cellKey(r2,c2);
+      if(pathKeys.has(k2)||!cells[r2][c2]) continue;
+      let minD=99,minI=-1;
+      bestPath.forEach(({r,c},i)=>{
+        const d=Math.abs(r2-r)+Math.abs(c2-c);
+        if(d<minD){minD=d;minI=i;}
+      });
+      if(minD<=3) assign[k2]=minI;
+    }
+  }
+
+  // 7. Construire les nœuds
+  const used=new Set();
+  const nodes=bestPath.map(({r,c,id},idx)=>{
+    let node={};
+    if(id==='CH3')      node={kind:'ch3'};
+    else if(id==='CH2') node={kind:'ch2'};
+    else if(id==='CH')  node={kind:'ch1'};
+    else if(id==='C')   node={kind:'ch0'};
+    else if(id==='CO')  node={kind:'co'};
+    else if(id==='CHO') node={kind:'cho'};
+    else if(id==='COOH')node={kind:'cooh'};
+
+    Object.entries(assign).forEach(([k2,ai])=>{
+      if(ai!==idx||used.has(k2)) return;
+      const [r2,c2]=k2.split(',').map(Number);
+      const vid=cells[r2][c2];
+      if(vid==='OH') node.oh=true;
+      else if(vid==='EqO') node.eqo=true;
+      else if(vid==='H')   node.exH=true;
+      else if(vid==='CH3'){
+        used.add(k2);
+        node.branches=node.branches||[];
+        node.branches.push('CH\u2083');
+      } else if(vid==='CH2'){
+        const ethEnd=[[-1,0],[1,0],[0,-1],[0,1]].map(([dr,dc])=>{
+          const nr=r2+dr,nc=c2+dc,ek=cellKey(nr,nc);
+          if(pathKeys.has(ek)||used.has(ek)||nr<0||nr>=ROWS||nc<0||nc>=COLS) return null;
+          return cells[nr][nc]==='CH3'?{key:ek}:null;
+        }).find(Boolean);
+        if(ethEnd){
+          used.add(k2); used.add(ethEnd.key);
+          node.branches=node.branches||[];
+          node.branches.push('CH\u2082\u2013CH\u2083');
+        }
+      }
+    });
+    return node;
+  });
+
+  // 8. Post-traitement
+  for(let i=nodes.length-2;i>=0;i--){
+    const a=nodes[i],b=nodes[i+1];
+    if(a.eqo&&b.oh&&i+1===nodes.length-1){
+      b.kind='cooh';if(a.branches)b.branches=(b.branches||[]).concat(a.branches);
+      delete b.oh;nodes.splice(i,1);break;
+    }
+    if(b.eqo&&a.oh&&i===0){
+      a.kind='cooh';if(b.branches)a.branches=(a.branches||[]).concat(b.branches);
+      delete a.oh;nodes.splice(i+1,1);break;
+    }
+  }
+  for(let i=0;i<nodes.length;i++){
+    const n=nodes[i];
+    if(n.cooh){n.kind='cooh';delete n.cooh;delete n.eqo;delete n.exH;delete n.oh;}
+    else if(n.eqo&&n.oh){n.kind='cooh';delete n.eqo;delete n.exH;delete n.oh;}
+    else if(n.eqo){
+      n.kind=(n.exH||(i===0||i===nodes.length-1))?'cho':'co';
+      delete n.eqo;delete n.exH;
+    } else {delete n.exH;}
+  }
+  return nodes;
+}
+
+function nodesKey(nodes){
+  return nodes.map(n=>
+    n.kind+(n.oh?'+oh':'')+(n.branches?'+br:'+n.branches.join(','):'')
+  ).join('|');
+}
+
+// ══════════════════════════════════════════════════════
+//  VÉRIFICATION
+// ══════════════════════════════════════════════════════
+// Molécule cible (pour le test)
+const TARGET = {
+  name:'2-méthylpropan-2-ol',
+  nodes:[{kind:'ch3'},{kind:'ch0',oh:true,branches:['CH\u2083']},{kind:'ch3'}]
+};
+
+function clearPreview(){
+  const prev=document.getElementById('svgSide');
+  prev.innerHTML='<span style="font-size:0.82rem;color:#B5AC98;font-style:italic">Le rendu apparaît après vérification</span>';
+}
+
+function verify(){
+  const nodes=gridToNodes();
+  const ok = nodesKey(nodes)===nodesKey(TARGET.nodes);
+  const fb=document.getElementById('fb');
+  fb.className='feedback '+(ok?'ok':'ko');
+  fb.innerHTML=ok
+    ?'<b>✓ Correct !</b> Bonne formule.'
+    :'<b>✗ Incorrect.</b> Vérifie la chaîne principale et les groupes fonctionnels.';
+}
+
+// ══════════════════════════════════════════════════════
+//  SVG
+// ══════════════════════════════════════════════════════
+function renderSVG(){
+  const nodes=gridToNodes();
+  const prev=document.getElementById('svgSide');
+  if(!nodes.length){
+    prev.innerHTML='<span style="font-size:0.82rem;color:#B5AC98;font-style:italic">Place des blocs dans la grille…</span>';
+    return;
+  }
+  try{
+    // Nettoyer les nœuds incomplets avant rendu :
+    // un nœud 'ch0' sans branches ni OH visible n'est pas invalide, juste un C nu
+    const safe=nodes.map(n=>Object.assign({},n));
+    prev.innerHTML=buildMolSVG(safe);
+  }
+  catch(e){
+    prev.innerHTML='<span style="font-size:0.82rem;color:#B5AC98;font-style:italic">Structure en cours…</span>';
+  }
+}
+
+
+// ═══════════════════════════════════════════════════════════════
+//  MOTEUR SVG
+//  Nœud de chaîne : { kind, oh, branches }
+//  kind : 'ch3'|'ch2'|'ch1'|'ch0'|'co'|'cho'|'cooh'
+//  oh   : bool  → groupe –OH vers le HAUT
+//  branches : [{ label:'CH₃'|'CH₂CH₃' }]  → vers le BAS
+//             (une ou deux ramifications)
+// ═══════════════════════════════════════════════════════════════
+
+const _mc=document.getElementById('mc');
+const _cx2=_mc.getContext('2d');
+function tw(str,sz){_cx2.font=`600 ${sz||16}px 'JetBrains Mono',monospace`;return _cx2.measureText(str).width}
+
+const CY=105, INTER=24, VGAP=42, VGAP2=84, DB=3, SW=1.8, PAD=40;
+const COL={bond:'#2A2622',dbond:'#B04A00',C:'#1A1714',O:'#C0340A',H:'#5A5450',BR:'#4A1A7A'};
+
+function ff(v){return Math.round(v*10)/10}
+
+// Largeur d'un label avec indices
+function lw(label){
+  const sub={'₀':'0','₁':'1','₂':'2','₃':'3','₄':'4','₅':'5'};
+  let m='',s='';
+  for(const ch of label){if(sub[ch])s+=sub[ch];else m+=ch}
+  return tw(m,16)+(s?tw(s,11):0)+4
+}
+function hw(l){return lw(l)/2}
+
+// Liaison SVG
+const SL=(x1,y1,x2,y2,c,w)=>`<line x1="${ff(x1)}" y1="${ff(y1)}" x2="${ff(x2)}" y2="${ff(y2)}" stroke="${c||COL.bond}" stroke-width="${w||SW}" stroke-linecap="round"/>`;
+
+// Label centré en (cx,cy)
+function DL(cx,cy,label,color){
+  const sub={'₀':'0','₁':'1','₂':'2','₃':'3','₄':'4','₅':'5'};
+  let m='',s='';
+  for(const ch of label){if(sub[ch])s+=sub[ch];else m+=ch}
+  const col=color||COL.C;
+  const mw=tw(m,16),sw2=s?tw(s,11):0;
+  const sx=cx-(mw+sw2)/2;
+  let o=`<text x="${ff(sx+mw/2)}" y="${ff(cy)}" text-anchor="middle" dominant-baseline="central" fill="${col}" font-size="16" font-weight="600" font-family="'JetBrains Mono',monospace">${m}</text>`;
+  if(s)o+=`<text x="${ff(sx+mw+sw2/2)}" y="${ff(cy+5)}" text-anchor="middle" dominant-baseline="central" fill="${col}" font-size="11" font-weight="600" font-family="'JetBrains Mono',monospace">${s}</text>`;
+  return o
+}
+
+// Label principal du nœud sur la chaîne
+function nLabel(n){
+  if(n.kind==='ch3')return'CH₃';
+  if(n.kind==='ch2')return'CH₂';
+  if(n.kind==='ch1')return'CH';
+  return'C'  // co, cho, cooh, ch0
+}
+
+// Dessine une ramification vers le bas à partir de cx,cy
+// brLabel = 'CH₃' ou 'CH₂–CH₃'  (éthyle = deux labels)
+// Dessine UNE ramification verticale vers le bas depuis (cx, startY)
+// startY = bord inférieur du carbone porteur
+// slot = 0 pour la 1re branche, 1 pour la 2e (les deux sur la même verticale, empilées)
+function drawBranch(cx, startY, brLabel, slot, dir){
+  const d = (dir===undefined ? 1 : dir);
+  let s='';
+  // startY est déjà le bord du nœud dans la bonne direction
+  // La liaison part de startY et va vers by
+  if(brLabel==='CH₃'){
+    const by = startY + d*VGAP;
+    s+=SL(cx, startY, cx, by-d*10, COL.BR);
+    s+=DL(cx, by, 'CH₃', COL.BR);
+  } else if(brLabel==='CH₂–CH₃'){
+    const by1 = startY + d*VGAP;
+    s+=SL(cx, startY, cx, by1-d*10, COL.BR);
+    s+=DL(cx, by1, 'CH₂', COL.BR);
+    const x2 = cx + hw('CH₂') + INTER + hw('CH₃');
+    s+=SL(cx+hw('CH₂'), by1, x2-hw('CH₃'), by1, COL.BR);
+    s+=DL(x2, by1, 'CH₃', COL.BR);
+  }
+  return s;
+}
+
+function buildMolSVG(nodes){
+  const N=nodes.length;
+
+  // Largeur de chaque nœud sur la chaîne
+  const nW=nodes.map(n=>lw(nLabel(n)));
+
+  // Centres X
+  const cx=[];
+  let x=PAD;
+  for(let i=0;i<N;i++){
+    x+=nW[i]/2;
+    cx.push(x);
+    if(i<N-1)x+=nW[i]/2+INTER+nW[i+1]/2;
+  }
+
+  // Débordements droite
+  const last=nodes[N-1];
+  let rExtra=0;
+  if(last.kind==='cooh')rExtra=52;
+  else if(last.oh)rExtra=52;
+  // Si branche éthyle sur le dernier nœud
+  if(last.branches&&last.branches.some(b=>b==='CH₂–CH₃'))rExtra=Math.max(rExtra,80);
+
+  // Débordements droite pour branches éthyle en milieu
+  nodes.forEach((n,i)=>{
+    if(n.branches&&n.branches.some(b=>b==='CH₂–CH₃')){
+      // ethyl branch goes right from cx[i]: CH₂ center is cx[i], CH₃ is to its right
+      const need=cx[i]+hw('CH₂')+INTER+lw('CH₃')+PAD;
+      const avail=cx[N-1]+nW[N-1]/2+PAD+rExtra;
+      if(need>avail) rExtra+=need-avail;
+    }
+  });
+
+  // Hauteur : branches descendent de VGAP, éventuellement VGAP si OH aussi
+  const W=cx[N-1]+nW[N-1]/2+PAD+rExtra;
+  const H=280;
+
+  let s='';
+
+  // ── Liaisons C–C chaîne principale ──
+  for(let i=0;i<N-1;i++){
+    s+=SL(cx[i]+nW[i]/2,CY,cx[i+1]-nW[i+1]/2,CY);
+  }
+
+  // ── Nœuds ──
+  for(let i=0;i<N;i++){
+    const n=nodes[i];
+    const c=cx[i];
+    const lb=nLabel(n);
+
+    if(['ch3','ch2','ch1','ch0'].includes(n.kind)){
+      s+=DL(c,CY,lb,COL.C);
+      // –OH vers le HAUT
+      if(n.oh){
+        const oy=CY-VGAP;
+        s+=SL(c,CY-11,c,oy+10);
+        s+=DL(c,oy,'O',COL.O);
+        s+=SL(c+hw('O'),oy,c+hw('O')+INTER*0.6+hw('H')-hw('H'),oy);
+        const hx=c+hw('O')+INTER*0.6+hw('H');
+        s+=DL(hx,oy,'H',COL.H);
+      }
+      // Ramifications vers le BAS
+      if(n.branches&&n.branches.length){
+        n.branches.forEach((br,slot)=>{
+        const dir = n.branches.length===1 ? 1 : (slot===0 ? -1 : 1);
+        s+=drawBranch(c, dir===1 ? CY+10 : CY-10, br,slot,dir);
+      });
+      }
+    }
+    else if(n.kind==='co'){
+      s+=DL(c,CY,'C',COL.C);
+      const oy=CY-VGAP;
+      s+=SL(c-DB,CY-10,c-DB,oy+10,COL.dbond);
+      s+=SL(c+DB,CY-10,c+DB,oy+10,COL.dbond);
+      s+=DL(c,oy,'O',COL.O);
+      if(n.branches&&n.branches.length){
+        n.branches.forEach((br,slot)=>{
+        const dir = n.branches.length===1 ? 1 : (slot===0 ? -1 : 1);
+        s+=drawBranch(c, dir===1 ? CY+10 : CY-10, br,slot,dir);
+      });
+      }
+    }
+    else if(n.kind==='cho'){
+      s+=DL(c,CY,'C',COL.C);
+      const oy=CY-VGAP;
+      s+=SL(c-DB,CY-10,c-DB,oy+10,COL.dbond);
+      s+=SL(c+DB,CY-10,c+DB,oy+10,COL.dbond);
+      s+=DL(c,oy,'O',COL.O);
+      s+=SL(c,CY+10,c,CY+VGAP-10);
+      s+=DL(c,CY+VGAP,'H',COL.H);
+    }
+    else if(n.kind==='cooh'){
+      s+=DL(c,CY,'C',COL.C);
+      const oy_t=CY-VGAP;
+      s+=SL(c-DB,CY-10,c-DB,oy_t+10,COL.dbond);
+      s+=SL(c+DB,CY-10,c+DB,oy_t+10,COL.dbond);
+      s+=DL(c,oy_t,'O',COL.O);
+      const oy_b=CY+VGAP;
+      s+=SL(c,CY+10,c,oy_b-10);
+      s+=DL(c,oy_b,'O',COL.O);
+      const hx=c+hw('O')+INTER*0.6+hw('H');
+      s+=SL(c+hw('O'),oy_b,hx-hw('H'),oy_b);
+      s+=DL(hx,oy_b,'H',COL.H);
+    }
+  }
+
+  return`<svg xmlns="http://www.w3.org/2000/svg" width="${ff(W)}" height="${H}" viewBox="0 0 ${ff(W)} ${H}">${s}</svg>`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  DONNÉES — 40 molécules
+// ═══════════════════════════════════════════════════════════════
+
+const MOLECULES=[
+  // ── ALCOOLS linéaires C1→C8 ──
+  {name:'méthanol',        family:'alcool', nodes:[{kind:'ch3',oh:true}]},
+  {name:'éthanol',         family:'alcool', nodes:[{kind:'ch3'},{kind:'ch2',oh:true}]},
+  {name:'propan-1-ol',     family:'alcool', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch2',oh:true}]},
+  {name:'propan-2-ol',     family:'alcool', nodes:[{kind:'ch3'},{kind:'ch1',oh:true},{kind:'ch3'}]},
+  {name:'butan-1-ol',      family:'alcool', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2',oh:true}]},
+  {name:'butan-2-ol',      family:'alcool', nodes:[{kind:'ch3'},{kind:'ch1',oh:true},{kind:'ch2'},{kind:'ch3'}]},
+  {name:'pentan-1-ol',     family:'alcool', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2',oh:true}]},
+  {name:'pentan-2-ol',     family:'alcool', nodes:[{kind:'ch3'},{kind:'ch1',oh:true},{kind:'ch2'},{kind:'ch2'},{kind:'ch3'}]},
+  {name:'pentan-3-ol',     family:'alcool', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch1',oh:true},{kind:'ch2'},{kind:'ch3'}]},
+  {name:'hexan-1-ol',      family:'alcool', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2',oh:true}]},
+  {name:'hexan-2-ol',      family:'alcool', nodes:[{kind:'ch3'},{kind:'ch1',oh:true},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch3'}]},
+  {name:'hexan-3-ol',      family:'alcool', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch1',oh:true},{kind:'ch2'},{kind:'ch2'},{kind:'ch3'}]},
+  {name:'heptan-1-ol',     family:'alcool', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2',oh:true}]},
+  {name:'octan-1-ol',      family:'alcool', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2',oh:true}]},
+  // ── ALCOOLS ramifiés ──
+  {name:'2-méthylpropan-1-ol',  family:'alcool', nodes:[{kind:'ch3'},{kind:'ch1',branches:['CH₃']},{kind:'ch2',oh:true}]},
+  {name:'2-méthylpropan-2-ol',  family:'alcool', nodes:[{kind:'ch3'},{kind:'ch0',oh:true,branches:['CH₃']},{kind:'ch3'}]},
+  {name:'3-méthylbutan-1-ol',   family:'alcool', nodes:[{kind:'ch3'},{kind:'ch1',branches:['CH₃']},{kind:'ch2'},{kind:'ch2',oh:true}]},
+  {name:'3-méthylbutan-2-ol',   family:'alcool', nodes:[{kind:'ch3'},{kind:'ch1',branches:['CH₃']},{kind:'ch1',oh:true},{kind:'ch3'}]},
+  {name:'4-méthylpentan-1-ol',  family:'alcool', nodes:[{kind:'ch3'},{kind:'ch1',branches:['CH₃']},{kind:'ch2'},{kind:'ch2'},{kind:'ch2',oh:true}]},
+  {name:'4-méthylpentan-2-ol',  family:'alcool', nodes:[{kind:'ch3'},{kind:'ch1',branches:['CH₃']},{kind:'ch2'},{kind:'ch1',oh:true},{kind:'ch3'}]},
+  {name:'4-méthylhexan-1-ol',   family:'alcool', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch1',branches:['CH₃']},{kind:'ch2'},{kind:'ch2'},{kind:'ch2',oh:true}]},
+  // ── ALDÉHYDES linéaires C1→C8 ──
+  {name:'éthanal',    family:'aldéhyde', nodes:[{kind:'ch3'},{kind:'cho'}]},
+  {name:'propanal',   family:'aldéhyde', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'cho'}]},
+  {name:'butanal',    family:'aldéhyde', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch2'},{kind:'cho'}]},
+  {name:'pentanal',   family:'aldéhyde', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'cho'}]},
+  {name:'hexanal',    family:'aldéhyde', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'cho'}]},
+  {name:'heptanal',   family:'aldéhyde', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'cho'}]},
+  {name:'octanal',    family:'aldéhyde', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'cho'}]},
+  // ── ALDÉHYDES ramifiés ──
+  {name:'2-méthylpropanal',  family:'aldéhyde', nodes:[{kind:'ch3'},{kind:'ch1',branches:['CH₃']},{kind:'cho'}]},
+  {name:'3-méthylbutanal',   family:'aldéhyde', nodes:[{kind:'ch3'},{kind:'ch1',branches:['CH₃']},{kind:'ch2'},{kind:'cho'}]},
+  {name:'2-méthylbutanal',   family:'aldéhyde', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch1',branches:['CH₃']},{kind:'cho'}]},
+  {name:'4-méthylpentanal',  family:'aldéhyde', nodes:[{kind:'ch3'},{kind:'ch1',branches:['CH₃']},{kind:'ch2'},{kind:'ch2'},{kind:'cho'}]},
+  {name:'3-méthylpentanal',  family:'aldéhyde', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch1',branches:['CH₃']},{kind:'ch2'},{kind:'cho'}]},
+  {name:'4-méthylhexanal',   family:'aldéhyde', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch1',branches:['CH₃']},{kind:'ch2'},{kind:'ch2'},{kind:'cho'}]},
+  // ── CÉTONES linéaires C3→C8 ──
+  {name:'propanone',    family:'cétone', nodes:[{kind:'ch3'},{kind:'co'},{kind:'ch3'}]},
+  {name:'butan-2-one',  family:'cétone', nodes:[{kind:'ch3'},{kind:'co'},{kind:'ch2'},{kind:'ch3'}]},
+  {name:'pentan-2-one', family:'cétone', nodes:[{kind:'ch3'},{kind:'co'},{kind:'ch2'},{kind:'ch2'},{kind:'ch3'}]},
+  {name:'pentan-3-one', family:'cétone', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'co'},{kind:'ch2'},{kind:'ch3'}]},
+  {name:'hexan-2-one',  family:'cétone', nodes:[{kind:'ch3'},{kind:'co'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch3'}]},
+  {name:'hexan-3-one',  family:'cétone', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'co'},{kind:'ch2'},{kind:'ch2'},{kind:'ch3'}]},
+  {name:'heptan-2-one', family:'cétone', nodes:[{kind:'ch3'},{kind:'co'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch3'}]},
+  {name:'heptan-3-one', family:'cétone', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'co'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch3'}]},
+  {name:'heptan-4-one', family:'cétone', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch2'},{kind:'co'},{kind:'ch2'},{kind:'ch2'},{kind:'ch3'}]},
+  {name:'octan-2-one',  family:'cétone', nodes:[{kind:'ch3'},{kind:'co'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch3'}]},
+  {name:'octan-4-one',  family:'cétone', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch2'},{kind:'co'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch3'}]},
+  // ── CÉTONES ramifiées ──
+  {name:'4-éthylheptan-2-one', family:'cétone', nodes:[{kind:'ch3'},{kind:'co'},{kind:'ch2'},{kind:'ch1',branches:['CH₂–CH₃']},{kind:'ch2'},{kind:'ch2'},{kind:'ch3'}]},
+  {name:'3-méthylbutan-2-one',  family:'cétone', nodes:[{kind:'ch3'},{kind:'co'},{kind:'ch1',branches:['CH₃']},{kind:'ch3'}]},
+  {name:'4-méthylpentan-2-one', family:'cétone', nodes:[{kind:'ch3'},{kind:'co'},{kind:'ch2'},{kind:'ch1',branches:['CH₃']},{kind:'ch3'}]},
+  {name:'2-méthylpentan-3-one', family:'cétone', nodes:[{kind:'ch3'},{kind:'ch1',branches:['CH₃']},{kind:'co'},{kind:'ch2'},{kind:'ch3'}]},
+  {name:'5-méthylhexan-2-one',  family:'cétone', nodes:[{kind:'ch3'},{kind:'co'},{kind:'ch2'},{kind:'ch2'},{kind:'ch1',branches:['CH₃']},{kind:'ch3'}]},
+  // ── ACIDES linéaires C1→C8 ──
+  {name:'acide éthanoïque',   family:'acide carboxylique', nodes:[{kind:'ch3'},{kind:'cooh'}]},
+  {name:'acide propanoïque',  family:'acide carboxylique', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'cooh'}]},
+  {name:'acide butanoïque',   family:'acide carboxylique', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch2'},{kind:'cooh'}]},
+  {name:'acide pentanoïque',  family:'acide carboxylique', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'cooh'}]},
+  {name:'acide hexanoïque',   family:'acide carboxylique', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'cooh'}]},
+  {name:'acide heptanoïque',  family:'acide carboxylique', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'cooh'}]},
+  {name:'acide octanoïque',   family:'acide carboxylique', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'ch2'},{kind:'cooh'}]},  {name:'acide 2-méthylpropanoïque',     family:'acide carboxylique', nodes:[{kind:'ch3'},{kind:'ch1',branches:['CH₃']},{kind:'cooh'}]},
+  {name:'acide 3-méthylbutanoïque',      family:'acide carboxylique', nodes:[{kind:'ch3'},{kind:'ch1',branches:['CH₃']},{kind:'ch2'},{kind:'cooh'}]},
+  {name:'acide 2-méthylbutanoïque',      family:'acide carboxylique', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch1',branches:['CH₃']},{kind:'cooh'}]},
+  {name:'acide 2,2-diméthylpropanoïque', family:'acide carboxylique', nodes:[{kind:'ch3'},{kind:'ch0',branches:['CH₃','CH₃']},{kind:'cooh'}]},
+  {name:'acide 4-méthylpentanoïque',     family:'acide carboxylique', nodes:[{kind:'ch3'},{kind:'ch1',branches:['CH₃']},{kind:'ch2'},{kind:'ch2'},{kind:'cooh'}]},
+  {name:'acide 3-méthylpentanoïque',     family:'acide carboxylique', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch1',branches:['CH₃']},{kind:'ch2'},{kind:'cooh'}]},
+  {name:'acide 4-méthylhexanoïque',      family:'acide carboxylique', nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch1',branches:['CH₃']},{kind:'ch2'},{kind:'ch2'},{kind:'cooh'}]},
+  // ── Doubles ramifications (méthyle+méthyle ou méthyle+éthyle) ──
+  // Alcools
+  {name:'2,2-diméthylpropan-1-ol',   family:'alcool',
+   nodes:[{kind:'ch3'},{kind:'ch0',branches:['CH₃','CH₃']},{kind:'ch2',oh:true}]},
+  // Aldéhydes
+  {name:'2,2-diméthylpropanal',        family:'aldéhyde',
+   nodes:[{kind:'ch3'},{kind:'ch0',branches:['CH₃','CH₃']},{kind:'cho'}]},
+  // Cétones
+  {name:'3,3-diméthylbutan-2-one',     family:'cétone',
+   nodes:[{kind:'ch3'},{kind:'co'},{kind:'ch0',branches:['CH₃','CH₃']},{kind:'ch3'}]},
+  // Acides
+  {name:'acide 2,2-diméthylbutanoïque', family:'acide carboxylique',
+   nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch0',branches:['CH₃','CH₃']},{kind:'cooh'}]},
+  // ── Ramifications éthyle valides ──
+  // Alcools : 3-éthylpentan-1-ol → chaîne 5C, éthyle en C3
+  {name:'3-éthylpentan-1-ol',   family:'alcool',
+   nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch1',branches:['CH₂–CH₃']},{kind:'ch2'},{kind:'ch2',oh:true}]},
+  // Aldéhydes : 3-éthylpentanal → chaîne 5C, éthyle en C3
+  {name:'3-éthylpentanal',      family:'aldéhyde',
+   nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch1',branches:['CH₂–CH₃']},{kind:'ch2'},{kind:'cho'}]},
+  // Cétones : 3-éthylpentan-2-one → chaîne 5C, éthyle en C3
+  {name:'3-éthylpentan-2-one',  family:'cétone',
+   nodes:[{kind:'ch3'},{kind:'co'},{kind:'ch1',branches:['CH₂–CH₃']},{kind:'ch2'},{kind:'ch3'}]},
+  // Acides : acide 3-éthylpentanoïque → chaîne 5C, éthyle en C3
+  {name:'acide 3-éthylpentanoïque', family:'acide carboxylique',
+   nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch1',branches:['CH₂–CH₃']},{kind:'ch2'},{kind:'cooh'}]},
+  // ── Doubles ramifications méthyle+méthyle ──
+  {name:'2,2-diméthylpropan-1-ol',    family:'alcool',            nodes:[{kind:'ch3'},{kind:'ch0',branches:['CH₃','CH₃']},{kind:'ch2',oh:true}]},
+  {name:'2,2-diméthylpropanal',        family:'aldéhyde',          nodes:[{kind:'ch3'},{kind:'ch0',branches:['CH₃','CH₃']},{kind:'cho'}]},
+  {name:'3,3-diméthylbutan-2-one',     family:'cétone',            nodes:[{kind:'ch3'},{kind:'co'},{kind:'ch0',branches:['CH₃','CH₃']},{kind:'ch3'}]},
+  {name:'acide 2,2-diméthylbutanoïque',family:'acide carboxylique',nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch0',branches:['CH₃','CH₃']},{kind:'cooh'}]},
+  // ── Ramifications éthyle valides ──
+  {name:'3-éthylpentan-1-ol',          family:'alcool',            nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch1',branches:['CH₂–CH₃']},{kind:'ch2'},{kind:'ch2',oh:true}]},
+  {name:'3-éthylpentanal',             family:'aldéhyde',          nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch1',branches:['CH₂–CH₃']},{kind:'ch2'},{kind:'cho'}]},
+  {name:'3-éthylpentan-2-one',         family:'cétone',            nodes:[{kind:'ch3'},{kind:'co'},{kind:'ch1',branches:['CH₂–CH₃']},{kind:'ch2'},{kind:'ch3'}]},
+  {name:'acide 3-éthylpentanoïque',    family:'acide carboxylique',nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch1',branches:['CH₂–CH₃']},{kind:'ch2'},{kind:'cooh'}]},
+  // ── Méthyle + Éthyle sur carbones différents ──
+  {name:'4-éthyl-2-méthylhexanal',        family:'aldéhyde',
+   nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch1',branches:['CH₂–CH₃']},{kind:'ch2'},{kind:'ch1',branches:['CH₃']},{kind:'cho'}]},
+  {name:'5-éthyl-3-méthylheptan-2-one',   family:'cétone',
+   nodes:[{kind:'ch3'},{kind:'co'},{kind:'ch1',branches:['CH₃']},{kind:'ch2'},{kind:'ch1',branches:['CH₂–CH₃']},{kind:'ch2'},{kind:'ch3'}]},
+  {name:'3-éthyl-5-méthylheptan-1-ol',    family:'alcool',
+   nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch1',branches:['CH₃']},{kind:'ch2'},{kind:'ch1',branches:['CH₂–CH₃']},{kind:'ch2'},{kind:'ch2',oh:true}]},
+  {name:'acide 4-éthyl-2-méthylhexanoïque',family:'acide carboxylique',
+   nodes:[{kind:'ch3'},{kind:'ch2'},{kind:'ch1',branches:['CH₂–CH₃']},{kind:'ch2'},{kind:'ch1',branches:['CH₃']},{kind:'cooh'}]},
+];
+
+const FAMILY_INFO={
+  'alcool':            {label:'Alcool',            group:'–OH',   hint:'Groupe hydroxyle <b>–OH</b> sur la chaîne. Suffixe <b>-ol</b>.'},
+  'aldéhyde':          {label:'Aldéhyde',          group:'–CHO',  hint:'Carbonyle <b>C=O</b> + H en bout de chaîne. Suffixe <b>-al</b>.'},
+  'cétone':            {label:'Cétone',            group:'C=O',   hint:'Carbonyle <b>C=O</b> en position interne. Suffixe <b>-one</b>.'},
+  'acide carboxylique':{label:'Acide carboxylique',group:'–COOH', hint:'Groupe carboxyle <b>–COOH</b> en bout de chaîne. Suffixe <b>acide -oïque</b>.'},
+};
+const ALL_FAM=Object.keys(FAMILY_INFO);
+
+const PALETTE_DEF=[
+  {id:'CH3', label:'CH₃–',   cls:'pb-chain'},
+  {id:'CH2', label:'–CH₂–',  cls:'pb-chain'},
+  {id:'CH',  label:'–CH–',   cls:'pb-chain'},
+  {id:'MeBr',label:'↓CH₃',   cls:'pb-branch', title:'Ramification méthyle'},
+  {id:'EtBr',label:'↓Et',    cls:'pb-branch', title:'Ramification éthyle'},
+  {id:'OH',  label:'–OH',    cls:'pb-oh'},
+  {id:'CO',  label:'C=O',    cls:'pb-co'},
+  {id:'CHO', label:'CHO',    cls:'pb-cho'},
+  {id:'COOH',label:'COOH',   cls:'pb-cooh'},
+];
+
+// ═══════════════════════════════════════════════════════════════
+//  ÉTAT
+// ═══════════════════════════════════════════════════════════════
+let mode='A', queue=[], qIndex=0, score=0, results=[], answered=false, builtIds=[];
+// step : 'famille' | 'nom' | 'dessiner'
+let step='famille';
+
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]]}return b}
+
+function buildQueue(){
+  const families = ['alcool','aldéhyde','cétone','acide carboxylique'];
+
+  // Catégoriser les molécules
+  const hasEthyl  = mol => mol.nodes.some(n => n.branches && n.branches.some(b => b.length > 3));
+  const hasTwoBr  = mol => mol.nodes.some(n => n.branches && n.branches.length >= 2);
+  const isSimple  = mol => !hasEthyl(mol) && !hasTwoBr(mol);
+
+  // Garantir au moins 1 éthyle et 1 double ramification parmi les 5
+  const ethylPool   = shuffle(MOLECULES.filter(hasEthyl));
+  const twoBrPool   = shuffle(MOLECULES.filter(hasTwoBr));
+  const simplePool  = shuffle(MOLECULES.filter(isSimple));
+
+  const picked = new Set();
+  const add = mol => { if(mol && !picked.has(mol)) picked.add(mol); };
+
+  // 1 éthyle obligatoire
+  add(ethylPool[0]);
+  // 1 double ramification obligatoire
+  add(twoBrPool[0]);
+
+  // Compléter à 5 en respectant l'équilibre par famille
+  const byFamily = {};
+  families.forEach(f => {
+    byFamily[f] = shuffle(MOLECULES.filter(m => m.family === f && !picked.has(m)));
+  });
+
+  // S'assurer qu'on a au moins 1 de chaque famille
+  families.forEach(f => {
+    if([...picked].filter(m => m.family === f).length === 0) {
+      add(byFamily[f][0]);
+    }
+  });
+
+  // Compléter si moins de 5
+  const allRemaining = shuffle(MOLECULES.filter(m => !picked.has(m)));
+  for(const m of allRemaining) {
+    if(picked.size >= 5) break;
+    picked.add(m);
+  }
+
+  return shuffle([...picked]).slice(0,5).map(mol => ({
+    mol,
+    type: Math.random() < 0.5 ? 'A' : 'B'
+  }));
+}
+
+// ── UI utils ─────────────────────────────────────────────────
+function renderPips(){
+  const r=document.getElementById('pipRow');r.innerHTML='';
+  queue.forEach((_,i)=>{
+    const d=document.createElement('div');
+    d.className='pip'+(results[i]==='ok'?' ok':results[i]==='ko'?' ko':i===qIndex?' curr':'');
+    r.appendChild(d);
+  });
+}
+function updateScore(){
+  document.getElementById('scoreVal').textContent=score;
+  document.getElementById('totalVal').textContent=results.filter(Boolean).length;
+  document.getElementById('progressFill').style.width=(queue.length?qIndex/queue.length*100:0)+'%';
+}
+function showFB(ok,msg){
+  const fb=document.getElementById('fb');
+  if(!fb)return;
+  fb.className='feedback '+(ok?'ok':'ko');
+  fb.innerHTML=(ok?'<b>✓ Correct.</b> ':'<b>✗ Incorrect.</b> ')+msg;
+}
+
+function setMode(m,btn){
+  mode=m;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  startMode();
+}
+function startMode(){
+  queue=buildQueue();qIndex=0;score=0;results=[];answered=false;
+  document.getElementById('endScreen').style.display='none';
+  document.getElementById('questionCard').style.display='';
+  updateScore();renderPips();renderQuestion();
+}
+function restartMode(){startMode()}
+function nextQuestion(){
+  qIndex++;
+  if(qIndex>=queue.length){showEnd();return}
+  answered=false;
+  renderQuestion();
+}
+function showEnd(){
+  document.getElementById('questionCard').style.display='none';
+  document.getElementById('endScreen').style.display='block';
+  const pct=Math.round(score/queue.length*100);
+  document.getElementById('endTitle').textContent=pct>=70?'Bien joué !':'Continue tes révisions !';
+  document.getElementById('endMsg').textContent=`${score} bonne${score>1?'s':''} réponse${score>1?'s':''} sur ${queue.length} (${pct} %).`;
+  document.getElementById('progressFill').style.width='100%';
+}
+
+// ── Rendu principal ───────────────────────────────────────────
+function renderQuestion(){
+  if(qIndex>=queue.length){showEnd();return}
+  const q=queue[qIndex];
+  answered=false;
+  if(q.type==='A') renderTypeA_Famille(q.mol);
+  else             renderTypeB_Famille(q.mol);
+}
+
+// ════════════════════════════════════════════════════════════
+//  TYPE A : molécule dessinée → famille → nom
+// ════════════════════════════════════════════════════════════
+
+function renderTypeA_Famille(mol){
+  const opts=shuffle([mol.family,...shuffle(ALL_FAM.filter(f=>f!==mol.family)).slice(0,3)]);
+  const card=document.getElementById('questionCard');
+  card.innerHTML=`
+    <div class="q-meta">Q ${qIndex+1}/${queue.length} · Étape 1 sur 2 — Identifier la famille</div>
+    <p class="q-text">À quelle famille appartient cette molécule ?</p>
+    <div class="mol-display">${buildMolSVG(mol.nodes)}</div>
+    <div class="options-grid">
+      ${opts.map(f=>`<button class="opt-btn" onclick="checkTypeA_Famille(this,'${f}','${mol.family}')" data-val="${f}">${FAMILY_INFO[f].label}</button>`).join('')}
+    </div>
+    <div class="feedback" id="fb"></div>
+    <div class="actions"></div>`;
+}
+
+function checkTypeA_Famille(btn,chosen,correct){
+  if(answered)return; answered=true;
+  document.querySelectorAll('.opt-btn').forEach(b=>{b.disabled=true;if(b.dataset.val===correct)b.classList.add('correct')});
+  const ok=chosen===correct;
+  if(!ok)btn.classList.add('wrong');
+  const mol=queue[qIndex].mol;
+  if(ok){
+    showFB(true,'Bonne famille ! Trouve maintenant le nom IUPAC.');
+    setTimeout(()=>renderTypeA_Nom(mol), 800);
+  } else {
+    showFB(false,`Famille correcte : <b>${FAMILY_INFO[correct].label}</b>. ${FAMILY_INFO[correct].hint}`);
+    setTimeout(()=>renderTypeA_Nom(mol), 1600);
+  }
+  updateScore();renderPips();
+}
+
+function renderTypeA_Nom(mol){
+  answered=false;
+  const card=document.getElementById('questionCard');
+  card.innerHTML=`
+    <div class="q-meta">Q ${qIndex+1}/${queue.length} · Étape 2 sur 2 — Écrire le nom</div>
+    <p class="q-text">Écris le nom IUPAC de cette molécule.</p>
+    <div class="mol-display">${buildMolSVG(mol.nodes)}</div>
+    <div style="display:flex;gap:8px;margin-bottom:0.5rem">
+      <input id="nomInput" type="text" placeholder="ex : propan-1-ol" autocomplete="off" autocorrect="off" spellcheck="false"
+        style="flex:1;padding:10px 14px;border:1px solid #C8C0B0;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:1rem;background:#FDFBF6;color:#1A1714"
+        onkeydown="if(event.key==='Enter')checkTypeA_Nom()"/>
+      <button class="btn btn-check" onclick="checkTypeA_Nom()">Vérifier</button>
+    </div>
+    <div class="feedback" id="fb"></div>
+    <div class="actions"><button class="btn btn-next" id="btnNext" onclick="nextQuestion()">Molécule suivante →</button></div>`;
+  setTimeout(()=>document.getElementById('nomInput').focus(), 50);
+}
+
+function normName(s){
+  let n = s.toLowerCase()
+    .normalize('NFD').replace(/[̀-ͯ]/g,'')
+    .replace(/[-\s]+/g,'-')
+    .replace(/[^a-z0-9\-]/g,'')
+    .trim();
+  // Trier les substituants alphabétiquement (règle IUPAC, ignorer di/tri/tétra)
+  const stripMult = t => t.replace(/^(di|tri|tetra)/,'');
+  const acide = n.startsWith('acide-') ? 'acide-' : '';
+  if(acide) n = n.slice(6);
+  const parts = n.split('-');
+  const substs = [];
+  let i = 0;
+  while(i < parts.length - 1 && /^\d/.test(parts[i]) && i+1 < parts.length && /^[a-z]/.test(parts[i+1])){
+    substs.push(parts[i]+'-'+parts[i+1]);
+    i += 2;
+  }
+  const base = parts.slice(i).join('-');
+  substs.sort((a,b) => stripMult(a.replace(/^[\d,]+-/,'')).localeCompare(stripMult(b.replace(/^[\d,]+-/,''))));
+  return acide + (substs.length ? substs.join('-') + '-' : '') + base;
+}
+
+function checkTypeA_Nom(){
+  if(answered)return;
+  const input=document.getElementById('nomInput');
+  if(!input||!input.value.trim())return;
+  answered=true;
+  input.disabled=true;
+  document.querySelector('.btn-check').disabled=true;
+  const mol=queue[qIndex].mol;
+  const ok=normName(input.value)===normName(mol.name);
+  if(ok)score++;
+  results[qIndex]=ok?'ok':'ko';
+  input.style.borderColor=ok?'#2D6A4F':'#9B2335';
+  input.style.background=ok?'#D8EFDF':'#F5DDE2';
+  showFB(ok, ok?'Parfait !':`Le nom correct est <b>${mol.name}</b>. ${FAMILY_INFO[mol.family].hint}`);
+  document.getElementById('btnNext').style.display='inline-block';
+  updateScore();renderPips();
+}
+
+// ════════════════════════════════════════════════════════════
+//  TYPE B : nom donné → famille → dessiner la molécule
+// ════════════════════════════════════════════════════════════
+
+function renderTypeB_Famille(mol){
+  const opts=shuffle([mol.family,...shuffle(ALL_FAM.filter(f=>f!==mol.family)).slice(0,3)]);
+  const card=document.getElementById('questionCard');
+  card.innerHTML=`
+    <div class="q-meta">Q ${qIndex+1}/${queue.length} · Étape 1 sur 2 — Identifier la famille</div>
+    <p class="q-text">À quelle famille appartient <strong>${mol.name}</strong> ?</p>
+    <div class="options-grid">
+      ${opts.map(f=>`<button class="opt-btn" onclick="checkTypeB_Famille(this,'${f}','${mol.family}')" data-val="${f}">${FAMILY_INFO[f].label}</button>`).join('')}
+    </div>
+    <div class="feedback" id="fb"></div>
+    <div class="actions"></div>`;
+}
+
+function checkTypeB_Famille(btn,chosen,correct){
+  if(answered)return; answered=true;
+  document.querySelectorAll('.opt-btn').forEach(b=>{b.disabled=true;if(b.dataset.val===correct)b.classList.add('correct')});
+  const ok=chosen===correct;
+  if(!ok)btn.classList.add('wrong');
+  const mol=queue[qIndex].mol;
+  if(ok){
+    showFB(true,'Bonne famille ! Maintenant construis la formule.');
+    setTimeout(()=>renderTypeB_Dessiner(mol), 800);
+  } else {
+    showFB(false,`Famille correcte : <b>${FAMILY_INFO[correct].label}</b>. ${FAMILY_INFO[correct].hint}`);
+    setTimeout(()=>renderTypeB_Dessiner(mol), 1600);
+  }
+  updateScore();renderPips();
+}
+
+function renderTypeB_Dessiner(mol){
+  answered=false; ROWS=4; COLS=5; cells=makeEmptyCells(ROWS,COLS);
+  const card=document.getElementById('questionCard');
+  card.innerHTML=`
+    <div class="q-meta">Q ${qIndex+1}/${queue.length} · Étape 2/2 — Construire la formule</div>
+    <p class="q-text">Construis la formule semi-développée de : <strong>${mol.name}</strong></p>
+    <p style="font-size:0.8rem;color:#9E9589;margin-bottom:0.75rem;font-style:italic">Clique une case pour choisir un bloc · Clique un bloc pour le retirer</p>
+    <div class="grid-controls">
+      <button class="btn-sm" onclick="resizeGrid(-1,0)">− ligne</button>
+      <button class="btn-sm" onclick="resizeGrid(1,0)">+ ligne</button>
+      <button class="btn-sm" onclick="resizeGrid(0,-1)">− col.</button>
+      <button class="btn-sm" onclick="resizeGrid(0,1)">+ col.</button>
+      <span id="gridDim"></span>
+    </div>
+    <div class="builder-layout">
+      <div class="grid-wrap"><div class="chess-grid" id="chessGrid"></div></div>
+      <div class="svg-side" id="svgSide"><span style="font-size:0.82rem;color:#B5AC98;font-style:italic">Le rendu apparaît ici</span></div>
+    </div>
+    <div class="feedback" id="fb"></div>
+    <div class="actions">
+      <button class="btn btn-check" id="btnCheck" onclick="checkTypeB_Dessiner()">Vérifier</button>
+      <button class="btn btn-undo" onclick="undoLast()">Annuler</button>
+      <button class="btn btn-clear" onclick="clearAll()">Effacer</button>
+      <button class="btn btn-next" id="btnNext" onclick="nextQuestion()">Molécule suivante →</button>
+    </div>`;
+  renderGrid();
+}
+function checkTypeB_Dessiner(){
+  if(answered)return; answered=true;
+  document.getElementById('btnCheck').disabled=true;
+  const mol=queue[qIndex].mol;
+  const built=gridToNodes();
+  const builtKey=nodesKey(built);
+  const targetKey=nodesKey(mol.nodes);
+  const targetRevKey=nodesKey([...mol.nodes].reverse());
+  const ok=(builtKey===targetKey)||(builtKey===targetRevKey);
+  if(ok)score++; results[qIndex]=ok?'ok':'ko';
+  let msg=FAMILY_INFO[mol.family].hint;
+  if(!ok)msg+=`<div style="display:flex;justify-content:center;margin-top:10px;background:rgba(255,255,255,0.55);border-radius:8px;padding:0.5rem;overflow-x:auto">${buildMolSVG(mol.nodes)}</div>`;
+  showFB(ok,msg); document.getElementById('btnNext').style.display='inline-block';
+  updateScore();renderPips();
+}
+
+
+startMode();
+</script>
+</body>
+</html>
