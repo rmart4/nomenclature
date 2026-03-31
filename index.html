@@ -91,7 +91,7 @@ header p{font-size:0.85rem;color:#7A7060;margin-top:0.3rem}
 .cell.filled:hover .rm{opacity:1}
 .ch-chain{background:#E2EAF8;color:#1C3F7A}.ch-oh{background:#D5EDDC;color:#1A3D2B}
 .ch-co{background:#FEF0D0;color:#5C3A00}.ch-cooh{background:#F8D8DF;color:#5C0F1A}
-.dropdown{position:fixed;background:#FDFBF6;border:1px solid #C8C0B0;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,0.15);z-index:1000;padding:6px;display:grid;grid-template-columns:repeat(2,1fr);gap:4px;min-width:170px}
+.dropdown{position:fixed;background:#FDFBF6;pointer-events:all;border:1px solid #C8C0B0;border-radius:10px;box-shadow:0 4px 24px rgba(0,0,0,0.15);z-index:1000;padding:6px;display:grid;grid-template-columns:repeat(2,1fr);gap:4px;min-width:170px}
 .dd-item{font-family:'JetBrains Mono',monospace;font-size:0.8rem;font-weight:600;padding:6px 10px;border-radius:6px;cursor:pointer;text-align:center;transition:filter 0.1s}
 .dd-item:hover{filter:brightness(0.92)}
 .dd-sep{grid-column:1/-1;font-size:0.67rem;color:#9E9589;text-transform:uppercase;letter-spacing:0.06em;padding:3px 4px 1px;border-top:1px solid #E5DFD2;margin-top:1px}
@@ -190,9 +190,19 @@ function renderGrid(){
         const bl=BLOCKS.find(b=>b.id===id);
         const chip=document.createElement('span');
         chip.className='chip '+(bl?bl.cls:'ch-chain');
-        chip.innerHTML=(bl?bl.label:id)+'<span class="rm">✕</span>';
-        chip.addEventListener('pointerdown',(e)=>{e.stopPropagation();openMenu(r,c,div,e);});
+        chip.innerHTML=(bl?bl.label:id);
         div.appendChild(chip);
+        // Tap court → ouvre menu | Tap long (500ms) → retire
+        let lpt=null;
+        div.addEventListener('pointerdown',(e)=>{
+          e.stopPropagation();
+          closeDropdown();
+          lpt=setTimeout(()=>{ lpt=null; removeCell(r,c); },500);
+        });
+        div.addEventListener('pointerup',(e)=>{
+          if(lpt){ clearTimeout(lpt); lpt=null; openMenu(r,c,div,e); }
+        });
+        div.addEventListener('pointercancel',()=>{ if(lpt){clearTimeout(lpt);lpt=null;} });
       } else {
         div.addEventListener('pointerdown',(e)=>{e.stopPropagation();openMenu(r,c,div,e);});
       }
@@ -221,7 +231,12 @@ function openMenu(row,col,cellEl,evt){
       const it=document.createElement('div');
       it.className='dd-item '+bl.cls;
       it.textContent=bl.label;
-      it.addEventListener('pointerdown',(e)=>{e.stopPropagation();placeBlock(row,col,bl.id);});
+      it.addEventListener('pointerdown',(e)=>{
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        placeBlock(row,col,bl.id);
+      });
       dd.appendChild(it);
     });
   });
@@ -244,17 +259,7 @@ function openMenu(row,col,cellEl,evt){
   dd.style.left = left + 'px';
   dd.style.width = ddW + 'px';
 
-  // Si la cellule est déjà remplie, ajouter option "Retirer"
-  if(cells[row][col]){
-    const sep=document.createElement('div');
-    sep.className='dd-sep'; sep.textContent='Action';
-    dd.appendChild(sep);
-    const rm=document.createElement('div');
-    rm.className='dd-item'; rm.textContent='✕ Retirer';
-    rm.style.cssText='background:#FEE;color:#900;grid-column:1/-1';
-    rm.addEventListener('pointerdown',(e)=>{e.stopPropagation();removeCell(row,col);closeDropdown();});
-    dd.appendChild(rm);
-  }
+
 
   openDropdown={row,col,el:dd};
 }
@@ -1126,7 +1131,7 @@ function renderTypeB_Dessiner(mol){
   card.innerHTML=`
     <div class="q-meta">Q ${qIndex+1}/${queue.length} · Étape 2/2 — Construire la formule</div>
     <p class="q-text">Construis la formule semi-développée de : <strong>${mol.name}</strong></p>
-    <p style="font-size:0.8rem;color:#9E9589;margin-bottom:0.75rem;font-style:italic">Clique une case pour choisir un bloc · Clique un bloc pour le retirer</p>
+    <p style="font-size:0.8rem;color:#9E9589;margin-bottom:0.75rem;font-style:italic">Tap sur une case vide pour choisir un bloc · Tap long sur un bloc pour le retirer</p>
     <div class="grid-controls">
       <button class="btn-sm" onclick="resizeGrid(-1,0)">− ligne</button>
       <button class="btn-sm" onclick="resizeGrid(1,0)">+ ligne</button>
