@@ -192,17 +192,10 @@ function renderGrid(){
         chip.className='chip '+(bl?bl.cls:'ch-chain');
         chip.innerHTML=(bl?bl.label:id);
         div.appendChild(chip);
-        // Tap court → ouvre menu | Tap long (500ms) → retire
-        let lpt=null;
         div.addEventListener('pointerdown',(e)=>{
           e.stopPropagation();
-          closeDropdown();
-          lpt=setTimeout(()=>{ lpt=null; removeCell(r,c); },500);
+          openMenu(r,c,div,e);
         });
-        div.addEventListener('pointerup',(e)=>{
-          if(lpt){ clearTimeout(lpt); lpt=null; openMenu(r,c,div,e); }
-        });
-        div.addEventListener('pointercancel',()=>{ if(lpt){clearTimeout(lpt);lpt=null;} });
       } else {
         div.addEventListener('pointerdown',(e)=>{e.stopPropagation();openMenu(r,c,div,e);});
       }
@@ -260,6 +253,25 @@ function openMenu(row,col,cellEl,evt){
   dd.style.width = ddW + 'px';
 
 
+
+  // Bouton Retirer si cellule remplie
+  if(cells[row][col]){
+    const sep=document.createElement('div');
+    sep.className='dd-sep'; sep.textContent='';
+    dd.appendChild(sep);
+    const rm=document.createElement('div');
+    rm.className='dd-item';
+    rm.textContent='✕ Retirer';
+    rm.style.cssText='background:#FEE;color:#900;grid-column:1/-1;text-align:center';
+    // Utiliser pointerup pour éviter les conflits avec pointerdown
+    rm.addEventListener('pointerup',(e)=>{
+      e.stopPropagation();
+      e.preventDefault();
+      closeDropdown();
+      removeCell(row,col);
+    });
+    dd.appendChild(rm);
+  }
 
   openDropdown={row,col,el:dd};
 }
