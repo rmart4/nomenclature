@@ -190,10 +190,10 @@ function renderGrid(){
         const chip=document.createElement('span');
         chip.className='chip '+(bl?bl.cls:'ch-chain');
         chip.innerHTML=(bl?bl.label:id)+'<span class="rm">✕</span>';
-        chip.onclick=(e)=>{e.stopPropagation();openMenu(r,c,div,e)};
+        chip.addEventListener('pointerdown',(e)=>{e.stopPropagation();openMenu(r,c,div,e);});
         div.appendChild(chip);
       } else {
-        div.onclick=(e)=>{e.stopPropagation();openMenu(r,c,div,e)};
+        div.addEventListener('pointerdown',(e)=>{e.stopPropagation();openMenu(r,c,div,e);});
       }
       g.appendChild(div);
     }
@@ -220,13 +220,14 @@ function openMenu(row,col,cellEl,evt){
       const it=document.createElement('div');
       it.className='dd-item '+bl.cls;
       it.textContent=bl.label;
-      it.onclick=(e)=>{e.stopPropagation();placeBlock(row,col,bl.id);};
+      it.addEventListener('pointerdown',(e)=>{e.stopPropagation();placeBlock(row,col,bl.id);});
       dd.appendChild(it);
     });
   });
 
   // Positionner via position:fixed en utilisant les coordonnées de la cellule
   document.body.appendChild(dd);
+  dd.addEventListener('pointerdown', e=>e.stopPropagation());
   const rect=cellEl.getBoundingClientRect();
   const ddW=180, ddH=220;
 
@@ -250,7 +251,7 @@ function openMenu(row,col,cellEl,evt){
     const rm=document.createElement('div');
     rm.className='dd-item'; rm.textContent='✕ Retirer';
     rm.style.cssText='background:#FEE;color:#900;grid-column:1/-1';
-    rm.onclick=(e)=>{e.stopPropagation();removeCell(row,col);closeDropdown();};
+    rm.addEventListener('pointerdown',(e)=>{e.stopPropagation();removeCell(row,col);closeDropdown();});
     dd.appendChild(rm);
   }
 
@@ -264,8 +265,11 @@ function closeDropdown(){
   }
 }
 
-document.addEventListener('click',closeDropdown);
-document.addEventListener('touchstart',closeDropdown,{passive:true});
+document.addEventListener('pointerdown', function(e){
+  if(openDropdown && !openDropdown.el.contains(e.target)){
+    closeDropdown();
+  }
+});
 
 function placeBlock(row,col,id){
   cells[row][col]=id;
